@@ -15,6 +15,7 @@ $app = new \Slim\App;
 $Jwt = new \Slim\Middleware\JwtAuthentication([
     "path" => "/api",
     "secure" => false,
+    "ignore" => ["/hello","/api/hello"],
     "passthroughs"  => ["/api/users/login","/api/users/register"],
     "secret" => KEY,
     "attribute" => "decoded_token_data",
@@ -78,7 +79,10 @@ function login($request, $response, $args){
 $app->post('/login',login);
 
 function setHeader($response) {
-    return $response->withHeader("Access-Control-Allow-Origin", "*")->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    return $response
+        ->withHeader("Access-Control-Allow-Origin", "*")
+        ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 }
 
 function addClient($request,$response,$args) {
@@ -99,7 +103,12 @@ function addClient($request,$response,$args) {
     return $response->write(json_encode($client));
 }
 
-
+$app->get('/hello/{name}', function (Request $request, Response $response, $args) {
+    $array = [];
+    $array ["nom"] = $args ['name'];
+    $response->getBody()->write(json_encode ($array));
+    return $response;
+});
 
 
 $app->run();
