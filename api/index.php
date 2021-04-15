@@ -99,12 +99,6 @@ function addClient($request,$response,$args) {
     return $response->write(json_encode($client));
 }
 
-$app->get('/hello/{name}', function (Request $request, Response $response, $args) {
-    $array = [];
-    $array ["nom"] = $args ['name'];
-    $response->getBody()->write(json_encode ($array));
-    return $response;
-});
 
 
 
