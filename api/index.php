@@ -12,7 +12,7 @@ const KEY = "hello-world";
 $app = new \Slim\App;
 
 
-$keyJwt = new \Slim\Middleware\JwtAuthentication([
+$Jwt = new \Slim\Middleware\JwtAuthentication([
     "path" => "/api",
     "secure" => false,
     "passthroughs"  => ["/api/users/login","/api/users/register"],
@@ -34,7 +34,7 @@ $app->add(function ($req, $res, $next) {
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
 
-$app->add($keyJwt);
+$app->add($Jwt);
 
 $app->get('/product', 'getProducts');
 
@@ -80,15 +80,15 @@ $app->post('/login',login);
 function addClient($request,$response,$args) {
     $body = $request->getParsedBody();
     $client = array();
-    $client->nom = $body['nom'];
-    $client->prenom = $body['prenom'];
+    $client->firstName = $body['firstname'];
+    $client->lastName = $body['lastname'];
     $client->civilite = $body['civilite'];
-    $client->telephone = $body['telephone'];
-    $client->ville = $body['ville'];
-    $client->adresse = $body['adresse'];
-    $client->cp = $body['cp'];
-    $client->pays = $body['pays'];
-    $client->email = $body['email'];
+    $client->tel = $body['tel'];
+    $client->city = $body['city'];
+    $client->address = $body['address'];
+    $client->postalCode = $body['postalCode'];
+    $client->country = $body['country'];
+    $client->mail = $body['mail'];
     $client->login = $body['login'];
     $client->password = $body['password'];
 
