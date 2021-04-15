@@ -20,7 +20,7 @@ $Jwt = new \Slim\Middleware\JwtAuthentication([
     "attribute" => "decoded_token_data",
     "algorithm" => ["HS256"],
     "error" => function($response, $args) {
-    $data = array('error' => 'erreur' , 'error' => "auth");
+    $data = array('error' => 'erreur' , 'error' => 'AUTO');
     return $response -> withHeader("Content-Type", "application/json")->getBody()->write(json_encode($data));
     }
 ]);
@@ -76,6 +76,10 @@ function login($request, $response, $args){
 }
 
 $app->post('/login',login);
+
+function setHeader($response) {
+    return $response->withHeader("Access-Control-Allow-Origin", "*")->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+}
 
 function addClient($request,$response,$args) {
     $body = $request->getParsedBody();
